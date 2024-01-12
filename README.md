@@ -110,3 +110,8 @@ Finalmente ejecutamos las migraciones que se han creado.
 
 `sail artisan migrate`
 
+## Cambiando los mensajes de error a español
+
+clonamos el repo con: (recordar eliminar "es" de la ruta)
+`git clone https://github.com/MarcoGomesr/laravel-validation-en-espanol.git resources/lang`
+
