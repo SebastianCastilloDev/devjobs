@@ -72,7 +72,7 @@ Tambien debemos estar ejecutando nuestro frontend con:
 
 Al visitar `http://localhost/login` podremos ver nuestra ventana de inicio de sesion.
 
-![login breeze](./readmeimg/Captura%20de%20pantalla%202024-01-12%20a%20la(s)%2014.01.01.png){width=50%}
+![login breeze](./readmeimg/Captura%20de%20pantalla%202024-01-12%20a%20la(s)%2014.01.01.png)
 
 Al ejecutar `sail artisan route:list`
 
