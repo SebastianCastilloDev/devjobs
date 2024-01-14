@@ -189,3 +189,7 @@ mysql> select * from users;
 ```
 
 En donde podremos apreciar que se ha completado el campo `email_verified_at` 
+
+### Modificando el mensaje de envío de correo de confirmación.
+
+En nuestro archivo `verify-email.blade.php` Podremos modificar nuestros mensajes. En este caso lo reescribiremos en español.
