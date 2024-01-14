@@ -45,7 +45,7 @@
 
         </div>
         <x-primary-button class="w-full justify-center">
-            {{ __('Iniciar Sesión') }}
+            {{ __('Enviar email') }}
         </x-primary-button>
     </form>
 </x-guest-layout>
