@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +24,13 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+        VerifyEmail::toMailUsing(function($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Verificar dirección de correo electrónico')
+                ->line('Presiona en el botón para verificar tu dirección de correo electrónico.')
+                ->action('Verificar dirección de correo electrónico', $url)
+                ->line('Si no creaste una cuenta, no es necesario realizar ninguna acción.');
+        });
     }
 }

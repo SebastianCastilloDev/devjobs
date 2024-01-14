@@ -193,3 +193,23 @@ En donde podremos apreciar que se ha completado el campo `email_verified_at`
 ### Modificando el mensaje de envío de correo de confirmación.
 
 En nuestro archivo `verify-email.blade.php` Podremos modificar nuestros mensajes. En este caso lo reescribiremos en español.
+
+### Modificando el correo de confirmación.
+
+Para modificar el correo de confirmación vamos a abrir el archivo `AuthServiceProvider.php`. En esta clase se encuentra el método `boot`, el cual se llama cuando el usuario presiona en el boton de envio de correo electronico. 
+
+modificaremos nuestro metodo boot de la siguiente manera:
+
+```php
+ public function boot(): void
+    {
+        $this->registerPolicies();
+        VerifyEmail::toMailUsing(function($notifiable, $url) {
+            return (new MailMessage)
+                ->subject('Verificar dirección de correo electrónico')
+                ->line('Presiona en el botón para verificar tu dirección de correo electrónico.')
+                ->action('Verificar dirección de correo electrónico', $url)
+                ->line('Si no creaste una cuenta, no es necesario realizar ninguna acción.');
+        });
+    }
+```
