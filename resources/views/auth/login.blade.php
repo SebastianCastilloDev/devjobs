@@ -44,8 +44,8 @@
             @endif
 
         </div>
-        <x-primary-button class="ms-3">
-            {{ __('Log in') }}
+        <x-primary-button class="w-full justify-center">
+            {{ __('Iniciar Sesión') }}
         </x-primary-button>
     </form>
 </x-guest-layout>
