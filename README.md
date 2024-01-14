@@ -131,5 +131,4 @@ Para llamarlo dentro de nuestro archivo `login.blade.php` utilizaremos la notaci
 </x-link>
 ```
 
-Y nuestro componente quedaría de esta forma
 
