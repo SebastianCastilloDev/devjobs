@@ -37,6 +37,21 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+
+        <!-- Rol -->
+        <div class="mt-4">
+            <x-input-label for="rol" :value="__('¿Qué tipo de cuenta deseas crear en DevJobs?')" />
+
+            <select name="rol" id="rol"
+                class="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-4 w-full">
+                <option value="">-- Selecciona un rol --</option>
+                <option value="1">Developer - Obtener empleo</option>
+                <option value="2">Recruiter - Publicar empleos</option>
+            </select>
+            <x-input-error :messages="$errors->get('rol')" class="mt-2" />
+
+        </div>
+
         <div class="flex justify-between my-4">
             @if (Route::has('password.request'))
                 <x-link :href="route('login')">
