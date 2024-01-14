@@ -115,3 +115,21 @@ Finalmente ejecutamos las migraciones que se han creado.
 clonamos el repo con: (recordar eliminar "es" de la ruta)
 `git clone https://github.com/MarcoGomesr/laravel-validation-en-espanol.git resources/lang`
 
+## Modificando el login
+
+Aprovecharemos de crear un componente extra para enlaces, de esta forma, lo podremos reutilizar en otras partes de la aplicación. Para este fin, crearemos un componente a través de artisan.
+
+`sail artisan make:component Link`
+
+Esto nos creará el archivo `link.blade.php` dentro de la carpeta `resources/views/components`.
+
+Para llamarlo dentro de nuestro archivo `login.blade.php` utilizaremos la notacion de componentes haciendo mencion al nombre del componente. Utilizaremos un slot para dotarlo de mayor funcionalidad.
+
+```html
+<x-link>
+  ¿Olvidaste tu password?
+</x-link>
+```
+
+Y nuestro componente quedaría de esta forma
+
