@@ -131,4 +131,61 @@ Para llamarlo dentro de nuestro archivo `login.blade.php` utilizaremos la notaci
 </x-link>
 ```
 
+## Registrando una cuenta
 
+Ingresamos a `/register`
+
+Breeze por defecto nos registra automáticamente y nos lleva al panel de dashboard. 
+Si revisamos la base de datos, podremos ver que existe un campo que registra cuando se verificó la cuenta, `email_verified_at` y aparece como NULL. tal como se puede ver en la siguiente salida de MySQL.
+
+```
+mysql> select * from users;
++----+-----------+-------------------+-------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+| id | name      | email             | email_verified_at | password                                                     | remember_token | created_at          | updated_at          |
++----+-----------+-------------------+-------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+|  1 | sebastian | correo@correo.com | NULL              | $2y$12$DG9AyadShuiWyYqOmycYJOlxVgDsECNGA1b./PjfBPuQjQMUFet1S | NULL           | 2024-01-14 12:43:49 | 2024-01-14 12:43:49 |
++----+-----------+-------------------+-------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+```
+
+Podemos forzar al usuario a confirmar su cuenta. Para ello modificaremos la ruta /dashboard en el archivo web.php, agregando la opcion 'verified' al arreglo. 
+Adicionalmente debemos implementar la interfaz MustVerifyEmail en el modelo de User
+
+```php
+class User extends Authenticatable implements MustVerifyEmail
+```
+
+Al recargar la ruta `/dashboard` nos va a llevar a la ruta `/verify-email`.
+
+Breeze utiliza las siguientes variables de entorno:
+
+```php
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+En Docker podremos ver que el servicio de mailpit esta activo. Es decir en local ya podemos enviar email.
+![mailpit](/readmeimg/Captura%20de%20pantalla%202024-01-14%20a%20la(s)%2010.03.08.png)
+
+En el navegador accederemos al puerto 8025, para acceder al cliente de correo
+
+![mailpit](/readmeimg/Captura%20de%20pantalla%202024-01-14%20a%20la(s)%2010.11.17.png)
+
+Haremos click en el enlace de correo para verificar el email. Al consultar la tabla users, obtendremos el siguiente resultado:
+```
+mysql> select * from users;
++----+-----------+-------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+| id | name      | email             | email_verified_at   | password                                                     | remember_token | created_at          | updated_at          |
++----+-----------+-------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+|  1 | sebastian | correo@correo.com | 2024-01-14 13:12:35 | $2y$12$DG9AyadShuiWyYqOmycYJOlxVgDsECNGA1b./PjfBPuQjQMUFet1S | NULL           | 2024-01-14 12:43:49 | 2024-01-14 13:12:35 |
++----+-----------+-------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+
+```
+
+En donde podremos apreciar que se ha completado el campo `email_verified_at` 
