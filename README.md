@@ -213,3 +213,81 @@ modificaremos nuestro metodo boot de la siguiente manera:
         });
     }
 ```
+
+### Creando una migracion para agregar la columna rol en la tabla usuarios.
+
+`sail artisan make:migration add_rol_to_users_table`
+
+Nuestra migracion quedará de la siguiente forma:
+
+```php
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('rol'); //1=dev, 2=recruiter
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('rol');
+        });
+    }
+};
+```
+
+Ahora ejecutamos  `sail artisan migrate` para agregar la columna rol
+
+Al consultar la estructura de la tabla users, obtenemos el siguiente resultado
+
+```
+mysql> describe users;
++-------------------+-----------------+------+-----+---------+----------------+
+| Field             | Type            | Null | Key | Default | Extra          |
++-------------------+-----------------+------+-----+---------+----------------+
+| id                | bigint unsigned | NO   | PRI | NULL    | auto_increment |
+| name              | varchar(255)    | NO   |     | NULL    |                |
+| email             | varchar(255)    | NO   | UNI | NULL    |                |
+| email_verified_at | timestamp       | YES  |     | NULL    |                |
+| password          | varchar(255)    | NO   |     | NULL    |                |
+| remember_token    | varchar(100)    | YES  |     | NULL    |                |
+| created_at        | timestamp       | YES  |     | NULL    |                |
+| updated_at        | timestamp       | YES  |     | NULL    |                |
+| rol               | int             | NO   |     | NULL    |                |
++-------------------+-----------------+------+-----+---------+----------------+
+9 rows in set (0.01 sec)
+```
+
+Finalmente en nuestro modelo `User.php` agregamos nuestro campo rol al $fillable, quedando nuestra variable $fillable de la siguiente forma:
+
+```php
+protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'rol'
+];
+```
+
+Al registrar un nuevo usuario, y consultando la tabla `users` vemos el siguiente resultado:
+
+```
+mysql> select * from users;
++----+------------+--------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+-----+
+| id | name       | email              | email_verified_at   | password                                                     | remember_token | created_at          | updated_at          | rol |
++----+------------+--------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+-----+
+|  3 | Sebastian2 | correo2@correo.com | 2024-01-15 03:52:48 | $2y$12$g3EXDi19K36Bw9hW1M9X8uKJc1TsCu0JpnKmGYVHDY/ldPEiX.hP6 | NULL           | 2024-01-15 03:52:36 | 2024-01-15 03:52:48 |   2 |
++----+------------+--------------------+---------------------+--------------------------------------------------------------+----------------+---------------------+---------------------+-----+
+```
+
+Una vez hemos ingresado con nuestra cuenta de usuario, podremos ingresar al dashboard.
+
