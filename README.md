@@ -291,3 +291,18 @@ mysql> select * from users;
 
 Una vez hemos ingresado con nuestra cuenta de usuario, podremos ingresar al dashboard.
 
+### Moviendo el dashboard hacia vacantes
+
+Ejecutaremos la siguiente migración:
+
+`sail artisan make:controller VacanteController -r`
+
+Agregamos la abreviación de flag -r para indicar que es un Resource Controller
+
+Creamos el modelo Vacante:
+
+`sail artisan make:model Vacante`
+
+Creamos la siguiente migracion con el flag --create:vacantes , con vacantes en MINUSCULAS para asociarlo a esa tabla (siguiendo las convenciones de laravel)
+
+`sail artisan make:migration create_vacante_table --create=vacantes`
